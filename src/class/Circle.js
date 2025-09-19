@@ -20,7 +20,6 @@ export default class Circle {
       Math.PI * 2,
       false
     );
-    console.log(this.color);
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
