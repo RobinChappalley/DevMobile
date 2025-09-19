@@ -27,8 +27,6 @@ const circle = new Circle({
     y: randomBetween(minPosY, maxPosY),
   },
   radius: randomBetween(minRadius, maxRadius),
-  color: "tomato",
-  velocity: { x: 0.1, y: 1 },
 });
 
 let lastTime = 0;
@@ -56,16 +54,15 @@ function tick(time) {
   requestAnimationFrame(tick);
   ctx.canvas.width = ctx.canvas.clientWidth;
   ctx.canvas.height = ctx.canvas.clientHeight;
-  circle.update(dt);
-  circle.draw(ctx);
+
+  circles.forEach((c) => c.draw(ctx));
 }
 
 requestAnimationFrame(tick);
 
-circles.forEach((c) => c.draw(ctx));
 console.table(circles);
 
-//Dans votre programme principal, créez un tableau pour le stockage des cercles.
+//Dans votre programme principal, créez un tableau pour le stockage des cercles. -> fait
 //  Générez ~300 cercles de positions et de couleurs pseudo-aléatoires.
 // Pour que vos couleurs ne soient pas trop ternes, vous pouvez utiliser HSL.
 // Pour les rayons, essayez de trouver une astuce pour que votre code génère plus de petits cercles que de grands cercles.
