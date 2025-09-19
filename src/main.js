@@ -39,7 +39,7 @@ for (let i = 0; i < circleCount; i++) {
         x: randomBetween(minPosX, maxPosX),
         y: randomBetween(minPosY, maxPosY),
       },
-      radius: Math.pow(randomBetween(minRadius, maxRadius), 2)
+      radius: Math.pow(randomBetween(minRadius, maxRadius), 2),
       color: `hsl(${Math.random() * 360}, 100%, 50%)`,
       velocity: {
         x: randomBetween(minVelocity, maxVelocity),
