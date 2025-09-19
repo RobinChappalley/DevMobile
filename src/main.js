@@ -62,6 +62,7 @@ function tick(time) {
 
 requestAnimationFrame(tick);
 
+circles.forEach((c) => c.draw(ctx));
 console.table(circles);
 
 //Dans votre programme principal, créez un tableau pour le stockage des cercles.
