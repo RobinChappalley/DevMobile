@@ -10,6 +10,10 @@ export default class Circle {
     this.position.x += dt * this.velocity.x;
   }
 
+  compareTo(other) {
+    return this.radius - other.radius;
+  }
+
   draw(ctx) {
     ctx.beginPath();
     ctx.arc(
