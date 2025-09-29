@@ -29,10 +29,9 @@ export default class Circle {
     ctx.closePath();
   }
   setAngle(angle) {
-    const radian = angle * (Math.PI / 180);
     const speed = Math.hypot(this.velocity.x, this.velocity.y);
-    this.velocity.x = speed * Math.cos(radian);
-    this.velocity.y = speed * Math.sin(radian);
+    this.velocity.x = speed * Math.cos(angle);
+    this.velocity.y = speed * Math.sin(angle);
   }
 
   move() {

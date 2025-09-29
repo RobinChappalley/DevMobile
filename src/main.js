@@ -6,6 +6,7 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const circles = [];
 const keyboard = new Keyboard();
+const TAU = Math.PI * 2;
 
 ctx.canvas.width = ctx.canvas.clientWidth;
 ctx.canvas.height = ctx.canvas.clientHeight;
@@ -18,22 +19,12 @@ const minRadius = 1;
 const maxRadius = 7;
 const mediumRadius = 20;
 const minVelocity = 0.05;
-const maxVelocity = 0.1;
-const circleCount = 300;
+const maxVelocity = 0.2;
+const circleCount = 100;
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
 }
-
-const circle = new Circle({
-  position: {
-    x: randomBetween(minPosX, maxPosX),
-    y: randomBetween(minPosY, maxPosY),
-  },
-  radius: randomBetween(minRadius, maxRadius),
-});
-
-let lastTime = 0;
 
 for (let i = 0; i < circleCount; i++) {
   const r = Math.pow(randomBetween(minRadius, maxRadius), 2);
@@ -64,52 +55,40 @@ function tickRender() {
   circles.forEach((c) => c.draw(ctx));
   move();
 }
+
 circles.sort((a, b) => a.compareTo(b));
 
 function detectDirection() {
-  const direction = null;
   switch (true) {
     case keyboard.isKeyDown("KeyW") && keyboard.isKeyDown("KeyD"): //monter droite
-      return (direction = 45);
+      return 45;
     case keyboard.isKeyDown("KeyW") && keyboard.isKeyDown("KeyA"): //monter gauche
-      return (direction = 315);
+      return 315;
     case keyboard.isKeyDown("KeyS") && keyboard.isKeyDown("KeyD"): //descendre droite
-      return (direction = 135);
+      return 135;
     case keyboard.isKeyDown("KeyS") && keyboard.isKeyDown("KeyA"): //descendre gauche
-      return (direction = 225);
+      return 225;
     case keyboard.isKeyDown("KeyW"): //monter
-      return (direction = 0);
+      return TAU - 90;
     case keyboard.isKeyDown("KeyS"): //descendre
-      return (direction = 180);
+      return TAU + 90;
     case keyboard.isKeyDown("KeyA"): //gauche
-      return (direction = 270);
+      return TAU - 180;
     case keyboard.isKeyDown("KeyD"): //droite
-      return (direction = 90);
+      return TAU;
+    default:
+      return false;
   }
 }
 
 function move() {
   const direction = detectDirection();
-  if (direction) {
+  if (direction !== false) {
     circles.forEach((c) => {
-      switch (direction) {
-        case "WD":
-          c.position.x -= c.velocity.x;
-          c.position.y -= c.velocity.y;
-          break;
-        case "WA":
-          c.position.x += c.velocity.x;
-          c.position.y -= c.velocity.y;
-          break;
-        case "SD":
-          c.position.x -= c.velocity.x;
-          c.position.y += c.velocity.y;
-          break;
-        case "SA":
-          c.position.x += c.velocity.x;
-          c.position.y += c.velocity.y;
-          break;
-      }
+      console.log(direction);
+      console.log(c.velocity.x, " ---", c.velocity.y);
+      c.setAngle(direction);
+      c.move();
     });
   }
 }
