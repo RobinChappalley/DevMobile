@@ -18,9 +18,8 @@ const maxPosY = ctx.canvas.height;
 const minRadius = 1;
 const maxRadius = 7;
 const mediumRadius = 20;
-const minVelocity = 0.05;
 const maxVelocity = 0.2;
-const circleCount = 100;
+const circleCount = 300;
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
@@ -38,8 +37,8 @@ for (let i = 0; i < circleCount; i++) {
       radius: r,
       color: `hsl(${Math.random() * 360}, 100%, 50%)`,
       velocity: {
-        x: randomBetween(minVelocity, maxVelocity) * speedFactor,
-        y: randomBetween(minVelocity, maxVelocity) * speedFactor,
+        x: maxVelocity * speedFactor,
+        y: maxVelocity * speedFactor,
       },
     })
   );
@@ -48,12 +47,11 @@ for (let i = 0; i < circleCount; i++) {
 function tickPhysics(dt) {
   ctx.canvas.width = ctx.canvas.clientWidth;
   ctx.canvas.height = ctx.canvas.clientHeight;
-  circles.forEach((c) => c.update(dt));
+  move(dt);
 }
 
 function tickRender() {
   circles.forEach((c) => c.draw(ctx));
-  move();
 }
 
 circles.sort((a, b) => a.compareTo(b));
@@ -61,34 +59,33 @@ circles.sort((a, b) => a.compareTo(b));
 function detectDirection() {
   switch (true) {
     case keyboard.isKeyDown("KeyW") && keyboard.isKeyDown("KeyD"): //monter droite
-      return 45;
+      return -TAU * (5 / 8);
     case keyboard.isKeyDown("KeyW") && keyboard.isKeyDown("KeyA"): //monter gauche
-      return 315;
+      return -TAU * (7 / 8);
     case keyboard.isKeyDown("KeyS") && keyboard.isKeyDown("KeyD"): //descendre droite
-      return 135;
+      return -TAU * (3 / 8);
     case keyboard.isKeyDown("KeyS") && keyboard.isKeyDown("KeyA"): //descendre gauche
-      return 225;
+      return -TAU * (1 / 8);
     case keyboard.isKeyDown("KeyW"): //monter
-      return TAU - 90;
+      return -TAU * (3 / 4);
     case keyboard.isKeyDown("KeyS"): //descendre
-      return TAU + 90;
+      return -TAU / 4;
     case keyboard.isKeyDown("KeyA"): //gauche
-      return TAU - 180;
+      return -TAU / 2;
     case keyboard.isKeyDown("KeyD"): //droite
-      return TAU;
+      return -TAU;
     default:
       return false;
   }
 }
 
-function move() {
+function move(dt) {
   const direction = detectDirection();
   if (direction !== false) {
     circles.forEach((c) => {
-      console.log(direction);
-      console.log(c.velocity.x, " ---", c.velocity.y);
+      //console.log(c.velocity.x, " ---", c.velocity.y);
       c.setAngle(direction);
-      c.move();
+      c.move(dt);
     });
   }
 }

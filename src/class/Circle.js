@@ -32,10 +32,13 @@ export default class Circle {
     const speed = Math.hypot(this.velocity.x, this.velocity.y);
     this.velocity.x = speed * Math.cos(angle);
     this.velocity.y = speed * Math.sin(angle);
+    console.log(this.velocity.x, this.velocity.y);
   }
 
-  move() {
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
+  move(dt) {
+    console.log(dt);
+    this.position.x += this.velocity.x * dt;
+    this.position.y += this.velocity.y * dt;
+    console.log(this.position.x, this.position.y);
   }
 }
