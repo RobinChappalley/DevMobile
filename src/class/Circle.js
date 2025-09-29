@@ -28,4 +28,15 @@ export default class Circle {
     ctx.fill();
     ctx.closePath();
   }
+  setAngle(angle) {
+    const radian = angle * (Math.PI / 180);
+    const speed = Math.hypot(this.velocity.x, this.velocity.y);
+    this.velocity.x = speed * Math.cos(radian);
+    this.velocity.y = speed * Math.sin(radian);
+  }
+
+  move() {
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+  }
 }
