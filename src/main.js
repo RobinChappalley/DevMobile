@@ -1,8 +1,11 @@
 import Circle from "./class/Circle";
+import Keyboard from "./class/Keyboard";
+import MainLoop from "mainloop.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const circles = [];
+const keyboard = new Keyboard();
 
 ctx.canvas.width = ctx.canvas.clientWidth;
 ctx.canvas.height = ctx.canvas.clientHeight;
@@ -15,7 +18,7 @@ const minRadius = 1;
 const maxRadius = 7;
 const mediumRadius = 20;
 const minVelocity = 0.05;
-const maxVelocity = 0.2;
+const maxVelocity = 0.1;
 const circleCount = 300;
 
 function randomBetween(min, max) {
@@ -51,18 +54,67 @@ for (let i = 0; i < circleCount; i++) {
   );
 }
 
-function tick(time) {
-  const dt = time - lastTime;
-  lastTime = time;
-  requestAnimationFrame(tick);
+function tickPhysics(dt) {
   ctx.canvas.width = ctx.canvas.clientWidth;
   ctx.canvas.height = ctx.canvas.clientHeight;
-  circles.forEach((c) => c.draw(ctx));
+  circles.forEach((c) => c.update(dt));
 }
 
-requestAnimationFrame(tick);
+function tickRender() {
+  circles.forEach((c) => c.draw(ctx));
+  move();
+}
 circles.sort((a, b) => a.compareTo(b));
-console.table(circles);
+
+function detectDirection() {
+  const direction = null;
+  switch (true) {
+    case keyboard.isKeyDown("KeyW") && keyboard.isKeyDown("KeyD"): //monter droite
+      return (direction = 45);
+    case keyboard.isKeyDown("KeyW") && keyboard.isKeyDown("KeyA"): //monter gauche
+      return (direction = 315);
+    case keyboard.isKeyDown("KeyS") && keyboard.isKeyDown("KeyD"): //descendre droite
+      return (direction = 135);
+    case keyboard.isKeyDown("KeyS") && keyboard.isKeyDown("KeyA"): //descendre gauche
+      return (direction = 225);
+    case keyboard.isKeyDown("KeyW"): //monter
+      return (direction = 0);
+    case keyboard.isKeyDown("KeyS"): //descendre
+      return (direction = 180);
+    case keyboard.isKeyDown("KeyA"): //gauche
+      return (direction = 270);
+    case keyboard.isKeyDown("KeyD"): //droite
+      return (direction = 90);
+  }
+}
+
+function move() {
+  const direction = detectDirection();
+  if (direction) {
+    circles.forEach((c) => {
+      switch (direction) {
+        case "WD":
+          c.position.x -= c.velocity.x;
+          c.position.y -= c.velocity.y;
+          break;
+        case "WA":
+          c.position.x += c.velocity.x;
+          c.position.y -= c.velocity.y;
+          break;
+        case "SD":
+          c.position.x -= c.velocity.x;
+          c.position.y += c.velocity.y;
+          break;
+        case "SA":
+          c.position.x += c.velocity.x;
+          c.position.y += c.velocity.y;
+          break;
+      }
+    });
+  }
+}
+
+MainLoop.setUpdate(tickPhysics).setDraw(tickRender).start();
 
 //Dans votre programme principal, créez un tableau pour le stockage des cercles. -> fait
 //  Générez ~300 cercles de positions et de couleurs pseudo-aléatoires. -> fait
