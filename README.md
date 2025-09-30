@@ -1,5 +1,12 @@
-# Vue 3 + Vite
+# Parallax Scroll Demo
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Ce projet est une démonstration interactive d’un effet de parallaxe avec des cercles colorés animés sur un canevas HTML5.  
+L’utilisateur peut contrôler la direction du mouvement des cercles à l’aide des touches du clavier (W, A, S, D).  
+Le projet utilise JavaScript et la bibliothèque `mainloop.js` pour la gestion du rendu et de la physique.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Lancement
+
+```sh
+npm install
+npm run dev
+```
