@@ -1,11 +1,13 @@
 import Circle from "./class/Circle";
 import Keyboard from "./class/Keyboard";
 import MainLoop from "mainloop.js";
+import Touch from "./class/Touch";
 console.log("Coucou l'inspecteur !");
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const circles = [];
 const keyboard = new Keyboard();
+const touch = new Touch();
 const TAU = Math.PI * 2;
 
 ctx.canvas.width = ctx.canvas.clientWidth;
@@ -19,7 +21,7 @@ const minRadius = 1;
 const maxRadius = 7;
 const mediumRadius = 20;
 const maxVelocity = 0.1;
-const circleCount = 800;
+const circleCount = 300;
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;

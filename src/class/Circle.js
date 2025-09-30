@@ -25,7 +25,7 @@ export default class Circle {
       false
     );
     ctx.fillStyle = this.color;
-    ctx.shadowBlur = 15; // Intensité du glow
+    ctx.shadowBlur = 15;
     ctx.shadowColor = this.color;
     ctx.fill();
     ctx.closePath();
