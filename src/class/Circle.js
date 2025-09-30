@@ -27,18 +27,29 @@ export default class Circle {
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
+    this.teleport(ctx);
   }
   setAngle(angle) {
     const speed = Math.hypot(this.velocity.x, this.velocity.y);
     this.velocity.x = speed * Math.cos(angle);
     this.velocity.y = speed * Math.sin(angle);
-    console.log(this.velocity.x, this.velocity.y);
   }
 
   move(dt) {
-    console.log(dt);
     this.position.x += this.velocity.x * dt;
     this.position.y += this.velocity.y * dt;
-    console.log(this.position.x, this.position.y);
+  }
+
+  teleport(ctx) {
+    if (this.position.x - this.radius > ctx.canvas.width) {
+      this.position.x = -this.radius;
+    } else if (this.position.x + this.radius < 0) {
+      this.position.x = ctx.canvas.width + this.radius;
+    }
+    if (this.position.y - this.radius > ctx.canvas.height) {
+      this.position.y = -this.radius;
+    } else if (this.position.y + this.radius < 0) {
+      this.position.y = ctx.canvas.height + this.radius;
+    }
   }
 }
